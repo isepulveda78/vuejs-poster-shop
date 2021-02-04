@@ -12,27 +12,94 @@
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="public/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 <body>
 <div id="app">
-    <div class="header">
-        <h1>Vue.js Poster Store</h1>
-    </div>
-    <div class="main">
-        <div class="products">
-            <p>Products go here.</p>
-        </div>
-        <div class="cart">
-            <h2>Shopping Cart</h2>
-            <div>
-                No items in the cart.
+    <section class="hero is-danger">
+        <div class="hero-body">
+          <div class="container">
+           <div class="container">
+               <div class="columns">
+
+                <div class="column is-3 mt-5">
+                    <h1 class="title">
+                        Vue.js Poster Shop
+                    </h1>
+                    <h2 class="subtitle">
+                        Learning Course
+                    </h2>
+                </div>
+             
+               <div class="column is-6 is-offset-5 mt-6">
+                   <form v-on:submit.prevent="onSubmit()">
+                    <div class="field has-addons">
+                        <div class="control">
+                          <input class="input" type="text" placeholder="Search entire store..." required v-model="search">
+                        </div>
+                        <div class="control">
+                          <a class="button is-info" type="submit">
+                            Search
+                          </a>
+                        </div>
+                      </div>
+                   </form>
+                   <p>Try search terms <em>cat, dog, flower</em></p>
+               </div>
+
             </div>
+           </div>
+          </div>
         </div>
-    </div>
+      </section>
+
+      <div class="container">
+        <section class="mt-6">
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="mt-6">
+                            <div class="mt-6" v-for="product in products" :key="product.id">
+                                <div class="card p-5">
+                                    <div><h4> {{ product.title }}</h4>
+                                    <div class="mt-6">
+                                        <button class="button" v-on:click="addToCart(product)">Add to Cart</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </div>
+                    <div class="column is-half">
+                        <h5><b>Shopping Cart</b></h5>
+                        <div class="columns is-mobile">
+                            <div class="column is-half">
+                               <b>Total:</b>
+                               <ul>
+                                   <li v-for="item in cart" :key="item.id">{{ item.title }} - {{ item.price | currency }} X {{ item.qty }} 
+                                    &nbsp; <button class="button is-small" v-on:click="inc(item)">+</button><button class="button is-small" v-on:click="dec(item)">-</button>
+                                   </li>
+                                   
+                               </ul>
+                                <p><b>________</b></p>
+                               <div v-if="cart.length">
+                                    <p><b>{{ total | currency }}</b></p>
+                               </div>
+                               <div v-else>
+                                    <p>No items in the cart.</p>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+      </div>
 </div>
 
 <!-- Scripts -->
 <script src="/reload/reload.js"></script>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-resource/dist/vue-resource.js"></script>
 <script type="text/javascript" src="public/script.js"></script>
 
 </body>
